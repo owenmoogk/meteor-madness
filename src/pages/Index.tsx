@@ -90,8 +90,8 @@ const Index = () => {
       }
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 flex-shrink-0 overflow-hidden" style={{ height: 'calc(100vh - 300px)' }}>
         {/* Left Pane - 3D Trajectory */}
-        <div className="h-full border-b lg:border-b-0 lg:border-r border-border bg-gradient-space overflow-hidden">
-          <h1>Impact Simulation</h1>
+        <div className="h-full border-b bg-gradient-space overflow-hidden">
+          <h1 className="px-4 py-2 text-lg font-semibold text-primary">Original Impact Simulation</h1>
           {simulation && (
             <ImpactMap
               onMove={(center, zoom) => {
@@ -113,7 +113,7 @@ const Index = () => {
 
         {/* Right Pane - 2D Impact Map */}
         <div className="h-full">
-          <h1>Deflected Impact Simulation</h1>
+          <h1 className="px-4 py-2 text-lg font-semibold text-primary">Deflected Impact Simulation</h1>
 
           {
             deflectedSimulation && (

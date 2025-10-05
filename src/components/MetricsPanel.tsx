@@ -20,7 +20,7 @@ export function MetricsPanel({ pre, title }: MetricsPanelProps) {
   };
 
   return (
-    <div className="p-6 bg-gradient-space border-t border-border">
+    <div className="p-6 border-t border-border">
       {title && (
         <h3 className="text-lg font-semibold text-primary mb-4">{title}</h3>
       )}
