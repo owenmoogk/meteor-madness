@@ -166,30 +166,6 @@ export function ControlsPanel() {
                 />
               </div>
             </div>
-
-            <div className="pt-3 border-t border-border/50">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="sun-toggle" className="text-sm">
-                  Show Sun
-                </Label>
-                <Switch
-                  id="sun-toggle"
-                  checked={toggles.showSun}
-                  onCheckedChange={(checked) => setToggles({ showSun: checked })}
-                />
-              </div>
-
-              <div className="flex items-center justify-between mt-3">
-                <Label htmlFor="moon-toggle" className="text-sm">
-                  Show Moon
-                </Label>
-                <Switch
-                  id="moon-toggle"
-                  checked={toggles.showMoon}
-                  onCheckedChange={(checked) => setToggles({ showMoon: checked })}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </Card>

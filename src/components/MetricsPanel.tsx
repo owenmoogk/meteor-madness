@@ -4,9 +4,10 @@ import { ImpactOutputs } from '@/lib/physics';
 
 interface MetricsPanelProps {
   pre: ImpactOutputs;
+  title?: string;
 }
 
-export function MetricsPanel({ pre }: MetricsPanelProps) {
+export function MetricsPanel({ pre, title }: MetricsPanelProps) {
   const formatNumber = (num: number, decimals: number = 2) => {
     return num.toLocaleString(undefined, {
       minimumFractionDigits: decimals,
@@ -19,7 +20,11 @@ export function MetricsPanel({ pre }: MetricsPanelProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 p-6 bg-gradient-space border-t border-border">
+    <div className="p-6 bg-gradient-space border-t border-border">
+      {title && (
+        <h3 className="text-lg font-semibold text-primary mb-4">{title}</h3>
+      )}
+      <div className="flex flex-col gap-4">
       {/* Energy Metrics */}
       <Card className="p-4 bg-card/80 backdrop-blur-sm border-primary/20">
         <h4 className="text-sm font-semibold text-primary mb-3">Impact Energy</h4>
@@ -110,6 +115,7 @@ export function MetricsPanel({ pre }: MetricsPanelProps) {
           </div>
         </Card>
       )} */}
+      </div>
     </div>
   );
 }
