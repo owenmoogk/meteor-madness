@@ -117,8 +117,8 @@ export function ControlsPanel() {
 
           <div>
             <div className="flex justify-between mb-2">
-              <Label className="text-sm">Impact Location (km)</Label>
-              <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]} km, {deflection.delta_location_km[1]} km</span>
+              <Label className="text-sm">Impact Location (lat/long degrees)</Label>
+              <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]}°, {deflection.delta_location_km[1]}°</span>
             </div>
             <Slider
               value={[deflection.delta_location_km[0]]}
