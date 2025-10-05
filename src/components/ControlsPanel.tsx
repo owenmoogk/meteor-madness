@@ -107,8 +107,8 @@ export function ControlsPanel() {
             </div>
             <Slider
               value={[deflection.delta_density_kg_m3]}
-              min={-3000}
-              max={3000}
+              min={-neo.density_kg_m3}
+              max={neo.density_kg_m3}
               step={50}
               onValueChange={([value]) => setDeflection({ delta_density_kg_m3: value })}
               className="w-full"
@@ -146,8 +146,8 @@ export function ControlsPanel() {
             </div>
             <Slider
               value={[deflection.delta_velocity_km_s]}
-              min={-30}
-              max={30}
+              min={-neo.velocity_km_s}
+              max={2*neo.velocity_km_s}
               step={0.5}
               onValueChange={([value]) => setDeflection({ delta_velocity_km_s: value })}
               className="w-full"
