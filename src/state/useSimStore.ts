@@ -21,7 +21,7 @@ export interface DeflectionState {
   delta_diameter_m: number;         // Change in diameter (m)
   delta_velocity_km_s: number;      // Change in velocity (km/s)
   delta_density_kg_m3: number;      // Change in density (kg/m^3)
-  delta_location_km: [number, number]; // Change in impact location (km)
+  delta_location_angle: [number, number]; // Change in impact location (km)
   new_impact_angle: number;         // New impact angle (deg)
 }
 
@@ -73,7 +73,7 @@ const defaultDeflection: DeflectionState = {
   delta_diameter_m: 0,
   delta_velocity_km_s: 0,
   delta_density_kg_m3: 0,
-  delta_location_km: [0, 0],
+  delta_location_angle: [0, 0],
   new_impact_angle: 0,
 };
 
