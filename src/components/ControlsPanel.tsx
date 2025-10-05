@@ -24,8 +24,8 @@ export function ControlsPanel() {
               </div>
               <Slider
                 value={[deflection.delta_diameter_m]}
-                min={50}
-                max={2000}
+                min={-neo.diameter_m}
+                max={0}
                 step={10}
                 onValueChange={([value]) => setDeflection({ delta_diameter_m: value })}
                 className="w-full"
@@ -39,8 +39,8 @@ export function ControlsPanel() {
               </div>
               <Slider
                 value={[deflection.delta_density_kg_m3]}
-                min={1500}
-                max={3500}
+                min={-3000}
+                max={3000}
                 step={50}
                 onValueChange={([value]) => setDeflection({ delta_density_kg_m3: value })}
                 className="w-full"
@@ -54,7 +54,7 @@ export function ControlsPanel() {
               </div>
               <Slider
                 value={[deflection.delta_location_km[0]]}
-                min={5}
+                min={-30}
                 max={30}
                 step={0.5}
                 onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
@@ -63,7 +63,7 @@ export function ControlsPanel() {
               <br />
               <Slider
                 value={[deflection.delta_location_km[1]]}
-                min={5}
+                min={-30}
                 max={30}
                 step={0.5}
                 onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
@@ -78,7 +78,7 @@ export function ControlsPanel() {
               </div>
               <Slider
                 value={[deflection.delta_velocity_km_s]}
-                min={1}
+                min={-30}
                 max={30}
                 step={0.5}
                 onValueChange={([value]) => setDeflection({ delta_velocity_km_s: value })}
@@ -89,14 +89,14 @@ export function ControlsPanel() {
             <div>
               <div className="flex justify-between mb-2">
                 <Label className="text-sm">Change in Impact Angle (°)</Label>
-                <span className="text-xs text-muted-foreground">{deflection.delta_impact_angle_deg}°</span>
+                <span className="text-xs text-muted-foreground">{deflection.new_impact_angle}°</span>
               </div>
               <Slider
-                value={[neo.impact_angle_deg]}
-                min={15}
+              value={[deflection.new_impact_angle]}
+                min={-90}
                 max={90}
                 step={5}
-                onValueChange={([value]) => setDeflection({ delta_impact_angle_deg: value })}
+                onValueChange={([value]) => setDeflection({ new_impact_angle: value })}
                 className="w-full"
               />
             </div>

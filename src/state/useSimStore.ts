@@ -15,7 +15,7 @@ export interface DeflectionState {
   delta_velocity_km_s: number;
   delta_density_kg_m3: number;
   delta_location_km: [number, number];
-  delta_impact_angle_deg: number;
+  new_impact_angle: number;
 }
 
 export interface VisualizationToggles {
@@ -60,7 +60,7 @@ const defaultDeflection: DeflectionState = {
   delta_velocity_km_s: 0,
   delta_density_kg_m3: 0,
   delta_location_km: [0, 0],
-  delta_impact_angle_deg: 0,
+  new_impact_angle: 0,
 };
 
 const defaultToggles: VisualizationToggles = {
