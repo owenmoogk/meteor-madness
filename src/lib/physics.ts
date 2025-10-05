@@ -212,20 +212,22 @@ export function calculateNewImpactPoint(
 }
 
 async function getPopulationInArea(lat: number, long: number, radius_km: number): Promise<number> {
-  const api = `https://ringpopulationsapi.azurewebsites.net/api/globalringpopulations?latitude=${lat}&longitude=${long}&distance_km=${radius_km}`
+  const api = `https://ringpopulationsapi.azurewebsites.net/api/globalringpopulations?latitude=${lat}&longitude=${long}&distance_km=${Math.round(radius_km)}`
   const response = await fetch(api)
-  return response[0].people
+  const json = await response.json()
+  if (json.length < 1) return 0
+  return json[0].people
 }
 
 
 const CR_INJ = 0
-const OP1_INJ = 0
-const OP10_INJ = 0
-const TH_INJ = 0
-const CR_DTH = 0
-const OP1_DTH = 0
-const OP10_DTH = 0
-const TH_DTH = 0
+const OP1_INJ = 0.2
+const OP10_INJ = 0.35
+const TH_INJ = 0.1
+const CR_DTH = 1
+const OP1_DTH = 0.01
+const OP10_DTH = 0.6
+const TH_DTH = 0.05
 
 
 async function getCasualties(lat: number, long: number, crater_radius: number, overpres1_radius: number, overpres10_radius: number, thermal_radius: number){
