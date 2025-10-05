@@ -109,18 +109,18 @@ export function ControlsPanel() {
             </div>
             <Slider
               value={[deflection.delta_location_angle[0]]}
-              min={-60}
-              max={60}
-              step={0.5}
+              min={-5}
+              max={5}
+              step={0.25}
               onValueChange={([value]) => setDeflection({ delta_location_angle: [value, deflection.delta_location_angle[1]] })}
               className="w-full"
             />
             <br />
             <Slider
               value={[deflection.delta_location_angle[1]]}
-              min={-60}
-              max={60}
-              step={0.5}
+              min={-5}
+              max={5}
+              step={0.25}
               onValueChange={([value]) => setDeflection({ delta_location_angle: [deflection.delta_location_angle[0], value] })}
               className="w-full"
             />
