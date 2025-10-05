@@ -41,6 +41,9 @@ export interface SimStore {
   neo: NEOState;
   deflection: DeflectionState;
   toggles: VisualizationToggles;
+  presets: Record<string, NEOState>;
+  presetsLoading: boolean;
+  presetsError?: string;
   
   // Actions to update state
   setNEO: (updates: Partial<NEOState>) => void;
@@ -48,8 +51,10 @@ export interface SimStore {
   setToggles: (updates: Partial<VisualizationToggles>) => void;
   reset: () => void;            // Reset all state to defaults
   
+  // Presets API
+  fetchPresets: () => Promise<void>;
   // Load a preset asteroid scenario
-  loadPreset: (preset: 'small' | 'medium' | 'large' | 'tunguska' | 'chicxulub') => void;
+  loadPreset: (presetKey: string) => void;
 }
 
 // Default asteroid (NEO) state: medium-sized, Mumbai impact
@@ -83,46 +88,17 @@ const defaultToggles: VisualizationToggles = {
   showSun: true,
 };
 
-// Preset asteroid scenarios for quick selection
-const presets = {
-  small: {
-    diameter_m: 50,
-    density_kg_m3: 2000,
-    velocity_km_s: 15,
-    impact_angle_deg: 45,
-  },
-  medium: {
-    diameter_m: 250,
-    density_kg_m3: 3000,
-    velocity_km_s: 18,
-    impact_angle_deg: 45,
-  },
-  large: {
-    diameter_m: 1000,
-    density_kg_m3: 3500,
-    velocity_km_s: 25,
-    impact_angle_deg: 30,
-  },
-  tunguska: {
-    diameter_m: 60,
-    density_kg_m3: 2000,
-    velocity_km_s: 15,
-    impact_angle_deg: 30,
-  },
-  chicxulub: {
-    diameter_m: 10000,
-    density_kg_m3: 3000,
-    velocity_km_s: 20,
-    impact_angle_deg: 60,
-  },
-};
+// Presets are loaded dynamically from /presets.json at runtime
 
 // Zustand store implementation
-export const useSimStore = create<SimStore>((set) => ({
+export const useSimStore = create<SimStore>((set, get) => ({
   // Initial state
   neo: defaultNEO,
   deflection: defaultDeflection,
   toggles: defaultToggles,
+  presets: {},
+  presetsLoading: false,
+  presetsError: undefined,
 
   // Update NEO state with partial updates
   setNEO: (updates) =>
@@ -150,9 +126,29 @@ export const useSimStore = create<SimStore>((set) => ({
       toggles: defaultToggles,
     }),
 
+  // Fetch presets from public JSON (cached after first successful load)
+  fetchPresets: async () => {
+    const { presets, presetsLoading } = get();
+    if (presetsLoading || (presets && Object.keys(presets).length > 0)) return;
+    set({ presetsLoading: true, presetsError: undefined });
+    try {
+      const response = await fetch('/presets.json', { cache: 'no-cache' });
+      if (!response.ok) {
+        throw new Error(`Failed to load presets: ${response.status}`);
+      }
+      const data = await response.json();
+      set({ presets: data as Record<string, NEOState>, presetsLoading: false });
+    } catch (err: any) {
+      set({ presetsLoading: false, presetsError: err?.message ?? 'Unknown error loading presets' });
+    }
+  },
+
   // Load a preset asteroid scenario (overwrites NEO state with preset values)
-  loadPreset: (preset) =>
-    set((state) => ({
-      neo: { ...state.neo, ...presets[preset] },
-    })),
+  loadPreset: (presetKey: string) => {
+    const preset = get().presets[presetKey];
+    if (!preset) return;
+    set({
+      neo: preset,
+    });
+  },
 }));

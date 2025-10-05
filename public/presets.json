@@ -1,0 +1,48 @@
+{
+  "small": {
+    "diameter_m": 50,
+    "density_kg_m3": 2000,
+    "velocity_km_s": 15,
+    "impact_angle_deg": 45,
+    "impact_lat": 19.076,
+    "impact_lon": 72.8777,
+    "ocean_impact": false
+  },
+  "medium": {
+    "diameter_m": 250,
+    "density_kg_m3": 3000,
+    "velocity_km_s": 18,
+    "impact_angle_deg": 45,
+    "impact_lat": 19.076,
+    "impact_lon": 72.8777,
+    "ocean_impact": false
+  },
+  "large": {
+    "diameter_m": 1000,
+    "density_kg_m3": 3500,
+    "velocity_km_s": 25,
+    "impact_angle_deg": 30,
+    "impact_lat": 34.0522,
+    "impact_lon": -118.2437,
+    "ocean_impact": false
+  },
+  "tunguska": {
+    "diameter_m": 60,
+    "density_kg_m3": 2000,
+    "velocity_km_s": 15,
+    "impact_angle_deg": 30,
+    "impact_lat": 60.91,
+    "impact_lon": 101.89,
+    "ocean_impact": false
+  },
+  "chicxulub": {
+    "diameter_m": 10000,
+    "density_kg_m3": 3000,
+    "velocity_km_s": 20,
+    "impact_angle_deg": 60,
+    "impact_lat": 21.4,
+    "impact_lon": -89.0,
+    "ocean_impact": true
+  }
+}
+
