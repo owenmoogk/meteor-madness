@@ -100,7 +100,12 @@ const Index = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-x-3 px-4 lg:px-2 flex-shrink-0 overflow-hidden" style={{ height: '450px' }}>
         {/* Left Pane - 3D Trajectory */}
         <div className="h-full flex flex-col">
-          <h1 className="px-4 py-2 text-lg font-semibold text-primary">Original Impact Simulation</h1>
+          <div className="flex items-center justify-between px-4 py-2">
+            <h1 className="text-lg font-semibold text-primary">Original Impact Simulation</h1>
+            <span className="text-destructive font-mono text-base">
+              Deaths: {simulation?.pre.deaths !== undefined ? Math.round(simulation.pre.deaths).toLocaleString() : "—"}
+            </span>
+          </div>
           {simulation && (
             <div className="flex-1 min-h-0 rounded-lg overflow-hidden bg-gradient-space">
               <ImpactMap
@@ -125,8 +130,12 @@ const Index = () => {
 
         {/* Right Pane - 2D Impact Map */}
         <div className="h-full flex flex-col">
-          <h1 className="px-4 py-2 text-lg font-semibold text-primary">Deflected Impact Simulation</h1>
-
+          <div className="flex items-center justify-between px-4 py-2">
+              <h1 className="text-lg font-semibold text-primary">Deflected Impact Simulation</h1>
+              <span className="text-destructive font-mono text-base">
+                Deaths: {deflectedSimulation?.pre.deaths !== undefined ? Math.round(deflectedSimulation.pre.deaths).toLocaleString() : "—"}
+              </span>
+            </div>
           {
             deflectedSimulation && (
               <div className="flex-1 min-h-0 rounded-lg overflow-hidden bg-gradient-space">
