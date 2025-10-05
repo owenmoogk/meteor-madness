@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ThreeTrajectory } from '@/components/ThreeTrajectory';
 import { ImpactMap } from '@/components/ImpactMap';
 import { ControlsPanel } from '@/components/ControlsPanel';
 import { MetricsPanel } from '@/components/MetricsPanel';
@@ -31,6 +30,38 @@ const Index = () => {
     setDeflectedSimulation(deflectedResult);
   }, [neo, deflection]);
 
+  // Helper to compute delta outputs between two simulations
+  const computeDelta = (
+    a?: ReturnType<typeof simulateImpact>,
+    b?: ReturnType<typeof simulateImpact>
+  ) => {
+    if (!a || !b) return undefined;
+    const preA = a.pre;
+    const preB = b.pre;
+    return {
+      mass_kg: preB.mass_kg - preA.mass_kg,
+      energy_j: preB.energy_j - preA.energy_j,
+      energy_mt: preB.energy_mt - preA.energy_mt,
+      crater_diam_km: preB.crater_diam_km - preA.crater_diam_km,
+      crater_depth_m: preB.crater_depth_m - preA.crater_depth_m,
+      rings_km: {
+        crater: preB.rings_km.crater - preA.rings_km.crater,
+        thermal: preB.rings_km.thermal - preA.rings_km.thermal,
+        overpressure_1psi: preB.rings_km.overpressure_1psi - preA.rings_km.overpressure_1psi,
+        overpressure_3psi: preB.rings_km.overpressure_3psi - preA.rings_km.overpressure_3psi,
+        overpressure_5psi: preB.rings_km.overpressure_5psi - preA.rings_km.overpressure_5psi,
+        overpressure_10psi: preB.rings_km.overpressure_10psi - preA.rings_km.overpressure_10psi,
+        tsunami: preA.rings_km.tsunami !== undefined && preB.rings_km.tsunami !== undefined
+          ? preB.rings_km.tsunami - preA.rings_km.tsunami
+          : undefined,
+      },
+      seismic_magnitude: preB.seismic_magnitude - preA.seismic_magnitude,
+      would_miss_earth: false,
+    } as const;
+  };
+
+  const deltaPre = computeDelta(simulation, deflectedSimulation);
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -51,7 +82,8 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content - Split View */}
+      {/* Main Content - Split View */
+      }
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 flex-shrink-0 overflow-hidden" style={{ height: 'calc(100vh - 80px - 400px)' }}>
         {/* Left Pane - 3D Trajectory */}
         <div className="h-full border-b lg:border-b-0 lg:border-r border-border bg-gradient-space overflow-hidden">
@@ -86,15 +118,22 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Metrics Panel */}
-      {simulation && (
-        <MetricsPanel
-          pre={simulation.pre}
-        />
-      )}
-
-      {/* Controls */}
+      {/* Controls above metrics */}
       <ControlsPanel />
+
+      {/* Metrics: three panels side by side (each internally stacked) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
+        {simulation && (
+          <MetricsPanel pre={simulation.pre} title="Original Impact" />
+        )}
+        {deflectedSimulation && (
+          <MetricsPanel pre={deflectedSimulation.pre} title="Modified Impact" />
+        )}
+        {deltaPre && (
+          // Casting to any is safe for display-only deltas matching ImpactOutputs shape
+          <MetricsPanel pre={deltaPre as any} title="Delta" />
+        )}
+      </div>
     </div>
   );
 };
