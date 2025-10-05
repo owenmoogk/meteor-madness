@@ -154,31 +154,31 @@ export function ImpactMap({
         {showCrater && rings.crater && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ff0000" />
-            <Text style={{color: "black"}}>Crater: {rings.crater.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "crater").color}}>Crater: {rings.crater.toFixed(1)} km</Text>
           </Flex>
         )}
         {showThermal && rings.thermal && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ff9900" />
-            <Text style={{color: "black"}}>Thermal: {rings.thermal.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "thermal").color}}>Thermal: {rings.thermal.toFixed(1)} km</Text>
           </Flex>
         )}
         {showOverpressure && rings.overpressure_10psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ffff00" />
-            <Text style={{color: "black"}}>10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "overpressure-10").color}}>10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showOverpressure && rings.overpressure_1psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#00d9ff" />
-            <Text style={{color: "black"}}>1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
+            <Text style={{ color: ringConfigs.find(x => x.id == "overpressure-1").color}}>1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showTsunami && rings.tsunami && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#0099ff" />
-            <Text style={{color: "black" }}>Tsunami: {rings.tsunami.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "tsunami").color }}>Tsunami: {rings.tsunami.toFixed(1)} km</Text>
           </Flex>
         )}
       </Flex>
