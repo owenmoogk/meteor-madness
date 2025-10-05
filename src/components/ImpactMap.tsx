@@ -73,7 +73,7 @@ export function ImpactMap({
   syncCenter,
   syncZoom,
 }: ImpactMapProps) {
-  const [center, setCenter] = useState<[number, number]>(syncCenter ?? [impactLat, impactLon]);
+  const [center, setCenter] = useState<[number, number]>(syncCenter);
   const [zoom, setZoom] = useState(syncZoom ?? 6);
 
   const handleBoundsChange = useCallback(
@@ -93,36 +93,26 @@ export function ImpactMap({
   const ringConfigs = [
     { id: 'crater', radius: rings.crater, color: '#ff0000', show: showCrater, label: 'Crater' },
     { id: 'thermal', radius: rings.thermal, color: '#ff9900', show: showThermal, label: 'Thermal' },
-    { id: 'overpressure-10', radius: rings.overpressure_10psi, color: '#ffff00', show: showOverpressure, label: '10 PSI' },
+    { id: 'overpressure-10', radius: rings.overpressure_10psi, color: '#AA336A', show: showOverpressure, label: '10 PSI' },
     { id: 'overpressure-5', radius: rings.overpressure_5psi, color: '#99ff00', show: showOverpressure, label: '5 PSI' },
     { id: 'overpressure-3', radius: rings.overpressure_3psi, color: '#00ff99', show: showOverpressure, label: '3 PSI' },
     { id: 'overpressure-1', radius: rings.overpressure_1psi, color: '#00d9ff', show: showOverpressure, label: '1 PSI' },
     { id: 'tsunami', radius: rings.tsunami, color: '#0099ff', show: showTsunami, label: 'Tsunami' },
   ];
 
-  // Precompute ring polygons (lat/lon arrays)
-  const polygons = useMemo(() => {
-    const output: Record<string, [number, number][]> = {};
-    for (const { id, radius, show } of ringConfigs) {
-      if (show && radius && radius > 0) {
-        output[id] = createCircleLatLon(impactLat, impactLon, radius);
-      }
-    }
-    return output;
-  }, [impactLat, impactLon, ringConfigs.map(r => `${r.id}-${r.radius}-${r.show}`).join(',')]);
-
-  const circleFeature = createCircleGeoJson(44, -80, 4100);
 
   return (
     <Box className="relative w-full h-full">
       <Map
         provider={maptilerProvider}
         height={400}
+        limitBounds='edge'
         center={center}
         zoom={zoom}
         minZoom={2}
         onBoundsChanged={handleBoundsChange}
         dprs={[1, 2]}
+        defaultCenter={[impactLat,impactLon]}
       >
         <ZoomControl />
         
@@ -154,31 +144,31 @@ export function ImpactMap({
         {showCrater && rings.crater && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ff0000" />
-            <Text style={{color: "black"}}>Crater: {rings.crater.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "crater").color}}>Crater: {rings.crater.toFixed(1)} km</Text>
           </Flex>
         )}
         {showThermal && rings.thermal && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ff9900" />
-            <Text style={{color: "black"}}>Thermal: {rings.thermal.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "thermal").color}}>Thermal: {rings.thermal.toFixed(1)} km</Text>
           </Flex>
         )}
         {showOverpressure && rings.overpressure_10psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ffff00" />
-            <Text style={{color: "black"}}>10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "overpressure-10").color}}>10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showOverpressure && rings.overpressure_1psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#00d9ff" />
-            <Text style={{color: "black"}}>1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
+            <Text style={{ color: ringConfigs.find(x => x.id == "overpressure-1").color}}>1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showTsunami && rings.tsunami && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#0099ff" />
-            <Text style={{color: "black" }}>Tsunami: {rings.tsunami.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "tsunami").color }}>Tsunami: {rings.tsunami.toFixed(1)} km</Text>
           </Flex>
         )}
       </Flex>
