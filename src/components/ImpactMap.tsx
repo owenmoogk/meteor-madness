@@ -73,7 +73,7 @@ export function ImpactMap({
   syncCenter,
   syncZoom,
 }: ImpactMapProps) {
-  const [center, setCenter] = useState<[number, number]>(syncCenter ?? [impactLat, impactLon]);
+  const [center, setCenter] = useState<[number, number]>(syncCenter);
   const [zoom, setZoom] = useState(syncZoom ?? 6);
 
   const handleBoundsChange = useCallback(
@@ -93,25 +93,13 @@ export function ImpactMap({
   const ringConfigs = [
     { id: 'crater', radius: rings.crater, color: '#ff0000', show: showCrater, label: 'Crater' },
     { id: 'thermal', radius: rings.thermal, color: '#ff9900', show: showThermal, label: 'Thermal' },
-    { id: 'overpressure-10', radius: rings.overpressure_10psi, color: '#ffff00', show: showOverpressure, label: '10 PSI' },
+    { id: 'overpressure-10', radius: rings.overpressure_10psi, color: '#AA336A', show: showOverpressure, label: '10 PSI' },
     { id: 'overpressure-5', radius: rings.overpressure_5psi, color: '#99ff00', show: showOverpressure, label: '5 PSI' },
     { id: 'overpressure-3', radius: rings.overpressure_3psi, color: '#00ff99', show: showOverpressure, label: '3 PSI' },
     { id: 'overpressure-1', radius: rings.overpressure_1psi, color: '#00d9ff', show: showOverpressure, label: '1 PSI' },
     { id: 'tsunami', radius: rings.tsunami, color: '#0099ff', show: showTsunami, label: 'Tsunami' },
   ];
 
-  // Precompute ring polygons (lat/lon arrays)
-  const polygons = useMemo(() => {
-    const output: Record<string, [number, number][]> = {};
-    for (const { id, radius, show } of ringConfigs) {
-      if (show && radius && radius > 0) {
-        output[id] = createCircleLatLon(impactLat, impactLon, radius);
-      }
-    }
-    return output;
-  }, [impactLat, impactLon, ringConfigs.map(r => `${r.id}-${r.radius}-${r.show}`).join(',')]);
-
-  const circleFeature = createCircleGeoJson(44, -80, 4100);
 
   return (
     <Box className="relative w-full h-full">
@@ -123,6 +111,7 @@ export function ImpactMap({
         minZoom={2}
         onBoundsChanged={handleBoundsChange}
         dprs={[1, 2]}
+        defaultCenter={[impactLat,impactLon]}
       >
         <ZoomControl />
         
