@@ -5,7 +5,6 @@ import { ControlsPanel } from '@/components/ControlsPanel';
 import { MetricsPanel } from '@/components/MetricsPanel';
 import { useSimStore } from '@/state/useSimStore';
 import { simulateImpact } from '@/lib/physics';
-import { Rocket } from 'lucide-react';
 
 const Index = () => {
   const { neo, deflection, toggles } = useSimStore();
@@ -23,12 +22,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border px-6 py-4 flex-shrink-0">
+      <header className="bg-card/80 backdrop-blur-sm border-b border-border px-6 py-3 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-cyan rounded-lg flex items-center justify-center shadow-glow-cyan">
-              <Rocket className="w-6 h-6 text-primary-foreground" />
-            </div>
+            {/* Add favicon.png here */}
+            <img src="/favicon.png" alt="Asteroid Impact Simulator" className="w-14 h-14 rounded mr-2" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">
                 Asteroid Impact Simulator
