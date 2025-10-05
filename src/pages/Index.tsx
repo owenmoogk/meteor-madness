@@ -151,7 +151,7 @@ const Index = () => {
         )}
         {deltaPre && (
           // Casting to any is safe for display-only deltas matching ImpactOutputs shape
-          <MetricsPanel pre={deltaPre as any} title="Delta" />
+          <MetricsPanel pre={deltaPre} title="Delta" />
         )}
       </div>
     </div>

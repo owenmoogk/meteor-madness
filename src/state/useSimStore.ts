@@ -46,7 +46,6 @@ export interface SimStore {
   setNEO: (updates: Partial<NEOState>) => void;
   setDeflection: (updates: Partial<DeflectionState>) => void;
   setToggles: (updates: Partial<VisualizationToggles>) => void;
-  toggleDeflection: () => void; // (currently a placeholder, does not change state)
   reset: () => void;            // Reset all state to defaults
   
   // Load a preset asteroid scenario
@@ -141,14 +140,6 @@ export const useSimStore = create<SimStore>((set) => ({
   setToggles: (updates) =>
     set((state) => ({
       toggles: { ...state.toggles, ...updates },
-    })),
-
-  // Placeholder for toggling deflection (currently does nothing)
-  toggleDeflection: () =>
-    set((state) => ({
-      deflection: {
-        ...state.deflection,
-      },
     })),
 
   // Reset all state to defaults
