@@ -88,7 +88,7 @@ const Index = () => {
 
       {/* Main Content - Split View */
       }
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-x-3 px-4 lg:px-2 flex-shrink-0 overflow-hidden" style={{ height: 'calc(100vh - 300px)' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-x-3 px-4 lg:px-2 flex-shrink-0 overflow-hidden" style={{ height: '450px' }}>
         {/* Left Pane - 3D Trajectory */}
         <div className="h-full flex flex-col">
           <h1 className="px-4 py-2 text-lg font-semibold text-primary">Original Impact Simulation</h1>
