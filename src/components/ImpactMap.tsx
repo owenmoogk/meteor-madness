@@ -72,6 +72,9 @@ export function ImpactMap({
 
     // Add navigation controls to the map
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+    
+    // Disable right-click drag rotation
+    map.current.dragRotate.disable();
 
     // Cleanup: remove the map instance on unmount
     return () => {
