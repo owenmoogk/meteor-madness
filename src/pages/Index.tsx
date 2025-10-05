@@ -73,7 +73,7 @@ const Index = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Add favicon.png here */}
-            <img src="/favicon.png" alt="Asteroid Impact Simulator" className="w-14 h-14 rounded mr-2" />
+            <img src={import.meta.env.BASE_URL + "/favicon.png"} alt="Asteroid Impact Simulator" className="w-14 h-14 rounded mr-2" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">
                 Asteroid Impact Simulator

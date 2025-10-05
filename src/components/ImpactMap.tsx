@@ -25,6 +25,9 @@ interface ImpactMapProps {
   syncZoom?: number;
 }
 
+const populationProvider = (x: number, y: number, z: number) =>
+  `https://luminocity3d.org/WorldPopDen/tiles2020/${z}/${x}/${y}.png`;
+
 const apiKey = 'i8Vj4Y3CJzSksr0lAqNJ';
 const maptilerProvider = maptiler(apiKey, 'basic-v2');
 
@@ -103,8 +106,9 @@ export function ImpactMap({
 
   return (
     <Box className="relative w-full h-full">
+
       <Map
-        provider={maptilerProvider}
+        provider={populationProvider}
         height={400}
         limitBounds='edge'
         center={center}

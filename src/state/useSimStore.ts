@@ -132,7 +132,7 @@ export const useSimStore = create<SimStore>((set, get) => ({
     if (presetsLoading || (presets && Object.keys(presets).length > 0)) return;
     set({ presetsLoading: true, presetsError: undefined });
     try {
-      const response = await fetch('/presets.json', { cache: 'no-cache' });
+      const response = await fetch(import.meta.env.BASE_URL + '/presets.json', { cache: 'no-cache' });
       if (!response.ok) {
         throw new Error(`Failed to load presets: ${response.status}`);
       }

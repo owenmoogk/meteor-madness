@@ -34,7 +34,7 @@ export function WelcomeDialog() {
         </DialogHeader>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
           <div className="sm:col-span-1 flex items-center justify-center">
-            <img src="/favicon.png" alt="Logo" className="w-24 h-24 rounded" />
+            <img src={import.meta.env.BASE_URL+"/favicon.png"} alt="Logo" className="w-24 h-24 rounded" />
           </div>
           <div className="sm:col-span-2 space-y-4">
             <div>
