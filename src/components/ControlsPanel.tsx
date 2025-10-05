@@ -52,15 +52,16 @@ export function ControlsPanel() {
             </div>
 
             <div className="flex items-center justify-between">
-              <Label htmlFor="tsunami-toggle" className="text-sm">
-                Show Tsunami Reach
+              <Label htmlFor="thermal-toggle" className="text-sm">
+                Show Population Heatmap
               </Label>
               <Switch
-                id="tsunami-toggle"
-                checked={toggles.tsunami}
-                onCheckedChange={(checked) => setToggles({ tsunami: checked })}
+                id="thermal-toggle"
+                checked={toggles.showPopulation}
+                onCheckedChange={(checked) => setToggles({ showPopulation: checked })}
               />
             </div>
+
           </div>
         </div>
       </Card>

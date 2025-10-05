@@ -101,6 +101,7 @@ const Index = () => {
               }}
               syncCenter={syncCenter}
               syncZoom={syncZoom}
+              showPopulation={toggles.showPopulation}
               impactLat={neo.impact_lat}
               impactLon={neo.impact_lon}
               rings={simulation.pre.rings_km}
@@ -127,6 +128,7 @@ const Index = () => {
                 }}
                 syncCenter={syncCenter}
                 syncZoom={syncZoom}
+                showPopulation={toggles.showPopulation}
                 impactLat={neo.impact_lat + deflection.delta_location_angle[0]}
                 impactLon={neo.impact_lon + deflection.delta_location_angle[1]}
                 rings={deflectedSimulation.pre.rings_km}

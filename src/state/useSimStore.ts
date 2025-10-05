@@ -31,7 +31,7 @@ export interface VisualizationToggles {
   thermal: boolean;
   overpressure: boolean;
   tsunami: boolean;
-  population: boolean;
+  showPopulation: boolean;
   showMoon: boolean;
   showSun: boolean;
 }
@@ -83,7 +83,7 @@ const defaultToggles: VisualizationToggles = {
   thermal: true,
   overpressure: true,
   tsunami: false,
-  population: false,
+  showPopulation: true,
   showMoon: false,
   showSun: true,
 };
