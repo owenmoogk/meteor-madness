@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSimStore } from '@/state/useSimStore';
 import {
   Dialog,
@@ -10,9 +10,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 
 export function WelcomeDialog() {
-  const { loadPreset } = useSimStore();
+  const { presets, presetsLoading, presetsError, fetchPresets, loadPreset } = useSimStore();
   const [showWelcome, setShowWelcome] = useState(true);
-  const [selectedPreset, setSelectedPreset] = useState<'small' | 'medium' | 'large' | 'tunguska' | 'chicxulub'>('medium');
+  const [selectedPreset, setSelectedPreset] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    fetchPresets();
+  }, [fetchPresets]);
+
+  const presetKeys = useMemo(() => Object.keys(presets ?? {}), [presets]);
+
+  useEffect(() => {
+    if (!selectedPreset && presetKeys.length > 0) {
+      setSelectedPreset(presetKeys.includes('medium') ? 'medium' : presetKeys[0]);
+    }
+  }, [presetKeys, selectedPreset]);
 
   return (
     <Dialog open={showWelcome} onOpenChange={setShowWelcome}>
@@ -31,23 +43,26 @@ export function WelcomeDialog() {
             <div className="max-w-sm">
               <Select
                 value={selectedPreset}
-                onValueChange={(v) => setSelectedPreset(v as typeof selectedPreset)}
+                onValueChange={(v) => setSelectedPreset(v)}
+                disabled={presetsLoading || !!presetsError || presetKeys.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose a preset" />
+                  <SelectValue placeholder={presetsLoading ? 'Loading presets…' : presetsError ? 'Failed to load presets' : 'Choose a preset'} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="small">Small</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="large">Large</SelectItem>
-                  <SelectItem value="tunguska">Tunguska</SelectItem>
-                  <SelectItem value="chicxulub">Chicxulub</SelectItem>
+                  {presetKeys.map((key) => (
+                    <SelectItem key={key} value={key}>
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Button
+                disabled={!selectedPreset || !!presetsError || presetsLoading}
                 onClick={() => {
+                  if (!selectedPreset) return;
                   loadPreset(selectedPreset);
                   setShowWelcome(false);
                 }}
