@@ -106,6 +106,7 @@ export function ImpactMap({
       <Map
         provider={maptilerProvider}
         height={400}
+        limitBounds='edge'
         center={center}
         zoom={zoom}
         minZoom={2}
