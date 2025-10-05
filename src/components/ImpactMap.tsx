@@ -203,9 +203,8 @@ export function ImpactMap({
         sources: {
           osm: {
             type: 'raster',
-            tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+            tiles: ['https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=i8Vj4Y3CJzSksr0lAqNJ'],
             tileSize: 256,
-            attribution: '© OpenStreetMap contributors',
           },
         },
         layers: [
