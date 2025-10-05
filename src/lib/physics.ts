@@ -77,7 +77,7 @@ export function calculateCraterDiameter(
   energy_j: number,
   impact_angle_deg: number
 ): number {
-  const energy_mt = energy_j / 4.184e15
+  const energy_mt = joulesToMegatons(energy_j)
   const angle_rad = (impact_angle_deg * Math.PI) / 180;
   const angle_factor = Math.pow(Math.sin(angle_rad), 1 / 3);
   const diameter_km = 0.01 * Math.pow(energy_mt, 0.294) * angle_factor;
