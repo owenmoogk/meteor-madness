@@ -103,7 +103,7 @@ export function ControlsPanel() {
           <div>
             <div className="flex justify-between mb-2">
               <Label className="text-sm">Change in Density (kg/m³)</Label>
-              <span className="text-xs text-muted-foreground">{neo.density_kg_m3} kg/m³</span>
+              <span className="text-xs text-muted-foreground">{deflection.delta_density_kg_m3} kg/m³</span>
             </div>
             <Slider
               value={[deflection.delta_density_kg_m3]}

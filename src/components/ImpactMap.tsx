@@ -203,9 +203,8 @@ export function ImpactMap({
         sources: {
           osm: {
             type: 'raster',
-            tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+            tiles: ['https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=i8Vj4Y3CJzSksr0lAqNJ'],
             tileSize: 256,
-            attribution: '© OpenStreetMap contributors',
           },
         },
         layers: [
@@ -288,9 +287,6 @@ export function ImpactMap({
       <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
       {/* Overlay legend for ring colors and radii */}
       <div className="absolute top-4 right-4 text-xs text-foreground space-y-1 pointer-events-none z-10">
-        <div className="bg-card/90 backdrop-blur-sm px-3 py-1.5 rounded shadow-elevated">
-          <div className="text-primary font-medium">Impact Zone Map</div>
-        </div>
         <div className="bg-card/90 backdrop-blur-sm px-3 py-1.5 rounded shadow-elevated space-y-0.5">
           {/* Crater ring legend */}
           {showCrater && rings.crater && (
