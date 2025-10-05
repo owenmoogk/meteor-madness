@@ -12,122 +12,95 @@ export function ControlsPanel() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 bg-card/50 backdrop-blur-sm border-t border-border">
       {/* Deflection Settings */}
       <Card className="p-6 bg-secondary/30 border-primary/20">
-        <div className="space-y-4">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-primary">Deflection Settings</h3>
-            <div className="flex items-center gap-2">
-              <Label htmlFor="deflection-toggle" className="text-sm">
-                Enable
-              </Label>
-              <Switch
-                id="deflection-toggle"
-                checked={deflection.enabled}
-                onCheckedChange={toggleDeflection}
-              />
-            </div>
           </div>
 
           <div className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <Label className="text-sm">Asteroid Diameter</Label>
-                <span className="text-xs text-muted-foreground">{neo.diameter_m} m</span>
+                <Label className="text-sm">Change in Diameter (m)</Label>
+                <span className="text-xs text-muted-foreground">{deflection.delta_diameter_m} m</span>
               </div>
               <Slider
-                value={[neo.diameter_m]}
+                value={[deflection.delta_diameter_m]}
                 min={50}
                 max={2000}
                 step={10}
-                onValueChange={([value]) => setNEO({ diameter_m: value })}
+                onValueChange={([value]) => setDeflection({ delta_diameter_m: value })}
                 className="w-full"
               />
             </div>
 
             <div>
               <div className="flex justify-between mb-2">
-                <Label className="text-sm">Density</Label>
+                <Label className="text-sm">Change in Density (kg/m³)</Label>
                 <span className="text-xs text-muted-foreground">{neo.density_kg_m3} kg/m³</span>
               </div>
               <Slider
-                value={[neo.density_kg_m3]}
+                value={[deflection.delta_density_kg_m3]}
                 min={1500}
                 max={3500}
                 step={50}
-                onValueChange={([value]) => setNEO({ density_kg_m3: value })}
+                onValueChange={([value]) => setDeflection({ delta_density_kg_m3: value })}
                 className="w-full"
               />
             </div>
 
             <div>
               <div className="flex justify-between mb-2">
-                <Label className="text-sm">Impact Velocity</Label>
-                <span className="text-xs text-muted-foreground">{neo.velocity_km_s} km/s</span>
+                <Label className="text-sm">Impact Location (km)</Label>
+                <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]} km, {deflection.delta_location_km[1]} km</span>
               </div>
               <Slider
-                value={[neo.velocity_km_s]}
+                value={[deflection.delta_location_km[0]]}
                 min={5}
                 max={30}
                 step={0.5}
-                onValueChange={([value]) => setNEO({ velocity_km_s: value })}
+                onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
+                className="w-full"
+              />
+              <br />
+              <Slider
+                value={[deflection.delta_location_km[1]]}
+                min={5}
+                max={30}
+                step={0.5}
+                onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
                 className="w-full"
               />
             </div>
 
             <div>
               <div className="flex justify-between mb-2">
-                <Label className="text-sm">Impact Angle</Label>
-                <span className="text-xs text-muted-foreground">{neo.impact_angle_deg}°</span>
+                <Label className="text-sm">Change in Velocity (km/s)</Label>
+                <span className="text-xs text-muted-foreground">{deflection.delta_velocity_km_s} km/s</span>
+              </div>
+              <Slider
+                value={[deflection.delta_velocity_km_s]}
+                min={1}
+                max={30}
+                step={0.5}
+                onValueChange={([value]) => setDeflection({ delta_velocity_km_s: value })}
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label className="text-sm">Change in Impact Angle (°)</Label>
+                <span className="text-xs text-muted-foreground">{deflection.delta_impact_angle_deg}°</span>
               </div>
               <Slider
                 value={[neo.impact_angle_deg]}
                 min={15}
                 max={90}
                 step={5}
-                onValueChange={([value]) => setNEO({ impact_angle_deg: value })}
+                onValueChange={([value]) => setDeflection({ delta_impact_angle_deg: value })}
                 className="w-full"
               />
             </div>
 
-            <div className={`pt-2 border-t border-border/50 transition-opacity ${!deflection.enabled ? 'opacity-40 pointer-events-none' : ''}`}>
-              <div>
-                <div className="flex justify-between mb-2">
-                  <Label className="text-sm">Deflection Δv</Label>
-                  <span className="text-xs text-muted-foreground">{deflection.delta_v_mm_s} mm/s</span>
-                </div>
-                <Slider
-                  value={[deflection.delta_v_mm_s]}
-                  min={0}
-                  max={5}
-                  step={0.1}
-                  onValueChange={([value]) => setDeflection({ delta_v_mm_s: value })}
-                  className="w-full"
-                  disabled={!deflection.enabled}
-                />
-              </div>
-
-              <div className="mt-4">
-                <div className="flex justify-between mb-2">
-                  <Label className="text-sm">Lead Time</Label>
-                  <span className="text-xs text-muted-foreground">{deflection.lead_time_years} years</span>
-                </div>
-                <Slider
-                  value={[deflection.lead_time_years]}
-                  min={0}
-                  max={5}
-                  step={0.1}
-                  onValueChange={([value]) => setDeflection({ lead_time_years: value })}
-                  className="w-full"
-                  disabled={!deflection.enabled}
-                />
-              </div>
-              
-              {!deflection.enabled && (
-                <p className="text-xs text-muted-foreground/60 mt-3 italic">
-                  Enable deflection above to adjust these parameters
-                </p>
-              )}
-            </div>
-          </div>
         </div>
       </Card>
 

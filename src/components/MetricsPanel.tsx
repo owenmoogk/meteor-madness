@@ -4,11 +4,9 @@ import { ImpactOutputs } from '@/lib/physics';
 
 interface MetricsPanelProps {
   pre: ImpactOutputs;
-  post?: ImpactOutputs;
-  deflectionEnabled: boolean;
 }
 
-export function MetricsPanel({ pre, post, deflectionEnabled }: MetricsPanelProps) {
+export function MetricsPanel({ pre }: MetricsPanelProps) {
   const formatNumber = (num: number, decimals: number = 2) => {
     return num.toLocaleString(undefined, {
       minimumFractionDigits: decimals,
@@ -85,8 +83,8 @@ export function MetricsPanel({ pre, post, deflectionEnabled }: MetricsPanelProps
         </div>
       </Card>
 
-      {/* Deflection Status */}
-      {deflectionEnabled && post && (
+      {/* Deflection Status
+      {pre && (
         <Card className="p-4 bg-card/80 backdrop-blur-sm border-primary/20 md:col-span-2 xl:col-span-3">
           <h4 className="text-sm font-semibold text-primary mb-3">Deflection Status</h4>
           <div className="flex items-center gap-4">
@@ -111,7 +109,7 @@ export function MetricsPanel({ pre, post, deflectionEnabled }: MetricsPanelProps
             )}
           </div>
         </Card>
-      )}
+      )} */}
     </div>
   );
 }

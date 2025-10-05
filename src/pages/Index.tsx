@@ -9,14 +9,26 @@ import { simulateImpact } from '@/lib/physics';
 const Index = () => {
   const { neo, deflection, toggles } = useSimStore();
   const [simulation, setSimulation] = useState<ReturnType<typeof simulateImpact>>();
-
+  const [deflectedSimulation, setDeflectedSimulation] = useState<ReturnType<typeof simulateImpact>>();
   useEffect(() => {
     // Run simulation whenever parameters change
     const result = simulateImpact(
       neo,
-      deflection.enabled ? deflection : undefined
     );
     setSimulation(result);
+    const deflectedResult = simulateImpact(
+      {
+        ...neo,
+        impact_angle_deg: neo.impact_angle_deg + deflection.delta_impact_angle_deg,
+        density_kg_m3: neo.density_kg_m3 + deflection.delta_density_kg_m3,
+        diameter_m: neo.diameter_m + deflection.delta_diameter_m,
+        velocity_km_s: neo.velocity_km_s + deflection.delta_velocity_km_s,
+        impact_lat: neo.impact_lat + deflection.delta_location_km[0],
+        impact_lon: neo.impact_lon + deflection.delta_location_km[1],
+      }
+      
+    );
+    setDeflectedSimulation(deflectedResult);
   }, [neo, deflection]);
 
   return (
@@ -43,17 +55,19 @@ const Index = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 flex-shrink-0 overflow-hidden" style={{ height: 'calc(100vh - 80px - 400px)' }}>
         {/* Left Pane - 3D Trajectory */}
         <div className="h-full border-b lg:border-b-0 lg:border-r border-border bg-gradient-space overflow-hidden">
-          <ThreeTrajectory
-            asteroidSize={neo.diameter_m}
-            impactLat={neo.impact_lat}
-            impactLon={neo.impact_lon}
-            postImpactLat={simulation?.post_impact_point?.lat}
-            postImpactLon={simulation?.post_impact_point?.lon}
-            showPreTrajectory={true}
-            showPostTrajectory={deflection.enabled && !!simulation?.post_impact_point}
-            showSun={toggles.showSun}
-            showMoon={toggles.showMoon}
-          />
+          {
+            deflectedSimulation && (
+              <ImpactMap
+                impactLat={neo.impact_lat + deflection.delta_location_km[0]}
+                impactLon={neo.impact_lon + deflection.delta_location_km[1]}
+                rings={deflectedSimulation.pre.rings_km}
+                showCrater={toggles.crater}
+                showThermal={toggles.thermal}
+                showOverpressure={toggles.overpressure}
+                showTsunami={toggles.tsunami && neo.ocean_impact}
+              />
+            )
+          }
         </div>
 
         {/* Right Pane - 2D Impact Map */}
@@ -67,8 +81,6 @@ const Index = () => {
               showThermal={toggles.thermal}
               showOverpressure={toggles.overpressure}
               showTsunami={toggles.tsunami && neo.ocean_impact}
-              postImpactLat={simulation.post_impact_point?.lat}
-              postImpactLon={simulation.post_impact_point?.lon}
             />
           )}
         </div>
@@ -78,8 +90,6 @@ const Index = () => {
       {simulation && (
         <MetricsPanel
           pre={simulation.pre}
-          post={simulation.post}
-          deflectionEnabled={deflection.enabled}
         />
       )}
 

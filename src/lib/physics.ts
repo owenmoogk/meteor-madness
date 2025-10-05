@@ -214,11 +214,9 @@ export function calculateNewImpactPoint(
  * Main simulation function
  */
 export function simulateImpact(
-  neo: NEOParams,
-  deflection?: DeflectionParams
+  neo: NEOParams
 ): {
   pre: ImpactOutputs;
-  post?: ImpactOutputs;
   post_impact_point?: { lat: number; lon: number };
 } {
   // Calculate pre-deflection impact
@@ -246,37 +244,6 @@ export function simulateImpact(
     seismic_magnitude: calculateSeismicMagnitude(energy),
     would_miss_earth: false,
   };
-
-  // Calculate post-deflection if applicable
-  if (deflection && deflection.delta_v_mm_s > 0 && deflection.lead_time_years > 0) {
-    const displacement = calculateDeflectionDisplacement(
-      deflection.delta_v_mm_s,
-      deflection.lead_time_years
-    );
-
-    const missed = wouldMissEarth(displacement);
-
-    if (missed) {
-      return {
-        pre,
-        post: { ...pre, would_miss_earth: true },
-        post_impact_point: undefined,
-      };
-    } else {
-      const new_point = calculateNewImpactPoint(
-        neo.impact_lat,
-        neo.impact_lon,
-        displacement,
-        deflection.azimuth_deg
-      );
-
-      return {
-        pre,
-        post: { ...pre, would_miss_earth: false },
-        post_impact_point: new_point,
-      };
-    }
-  }
 
   return { pre };
 }

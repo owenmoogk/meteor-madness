@@ -11,10 +11,11 @@ export interface NEOState {
 }
 
 export interface DeflectionState {
-  enabled: boolean;
-  delta_v_mm_s: number;
-  lead_time_years: number;
-  azimuth_deg: number;
+  delta_diameter_m: number;
+  delta_velocity_km_s: number;
+  delta_density_kg_m3: number;
+  delta_location_km: [number, number];
+  delta_impact_angle_deg: number;
 }
 
 export interface VisualizationToggles {
@@ -48,17 +49,18 @@ const defaultNEO: NEOState = {
   diameter_m: 250,
   density_kg_m3: 3000,
   velocity_km_s: 18,
-  impact_angle_deg: 45,
+  impact_angle_deg: 90,
   impact_lat: 19.076, // Mumbai
   impact_lon: 72.8777,
   ocean_impact: false,
 };
 
 const defaultDeflection: DeflectionState = {
-  enabled: false,
-  delta_v_mm_s: 2.5,
-  lead_time_years: 1.5,
-  azimuth_deg: 0,
+  delta_diameter_m: 0,
+  delta_velocity_km_s: 0,
+  delta_density_kg_m3: 0,
+  delta_location_km: [0, 0],
+  delta_impact_angle_deg: 0,
 };
 
 const defaultToggles: VisualizationToggles = {
@@ -129,7 +131,6 @@ export const useSimStore = create<SimStore>((set) => ({
     set((state) => ({
       deflection: {
         ...state.deflection,
-        enabled: !state.deflection.enabled,
       },
     })),
 
