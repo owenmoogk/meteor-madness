@@ -221,7 +221,7 @@ export function ImpactMap({
     });
 
     // Add navigation controls to the map
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.current.addControl(new maplibregl.NavigationControl(), 'top-left');
 
     // Disable right-click drag rotation
     map.current.dragRotate.disable();
