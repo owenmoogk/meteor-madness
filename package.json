@@ -9,9 +9,9 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "ver:major": "git pull && npm version --major && git push && git push --tags",
-    "ver:minor": "git pull && npm version --minor && git push && git push --tags",
-    "ver:patch": "git pull && npm version --patch && git push && git push --tags"
+    "ver:major": "git pull && npm version major && git push && git push --tags",
+    "ver:minor": "git pull && npm version minor && git push && git push --tags",
+    "ver:patch": "git pull && npm version patch && git push && git push --tags"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
