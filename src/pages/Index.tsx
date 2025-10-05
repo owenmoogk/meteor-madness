@@ -91,6 +91,30 @@ const Index = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 flex-shrink-0 overflow-hidden" style={{ height: 'calc(100vh - 80px - 400px)' }}>
         {/* Left Pane - 3D Trajectory */}
         <div className="h-full border-b lg:border-b-0 lg:border-r border-border bg-gradient-space overflow-hidden">
+          <h1>Impact Simulation</h1>
+          {simulation && (
+            <ImpactMap
+              onMove={(center, zoom) => {
+                setSyncCenter(center);
+                setSyncZoom(zoom);
+              }}
+              syncCenter={syncCenter}
+              syncZoom={syncZoom}
+              impactLat={neo.impact_lat}
+              impactLon={neo.impact_lon}
+              rings={simulation.pre.rings_km}
+              showCrater={toggles.crater}
+              showThermal={toggles.thermal}
+              showOverpressure={toggles.overpressure}
+              showTsunami={toggles.tsunami && neo.ocean_impact}
+            />
+          )}
+        </div>
+
+        {/* Right Pane - 2D Impact Map */}
+        <div className="h-full">
+          <h1>Deflected Impact Simulation</h1>
+
           {
             deflectedSimulation && (
               <ImpactMap
@@ -110,27 +134,7 @@ const Index = () => {
               />
             )
           }
-        </div>
-
-        {/* Right Pane - 2D Impact Map */}
-        <div className="h-full bg-muted">
-          {simulation && (
-            <ImpactMap
-              onMove={(center, zoom) => {
-                setSyncCenter(center);
-                setSyncZoom(zoom);
-              }}
-              syncCenter={syncCenter}
-              syncZoom={syncZoom}
-              impactLat={neo.impact_lat}
-              impactLon={neo.impact_lon}
-              rings={simulation.pre.rings_km}
-              showCrater={toggles.crater}
-              showThermal={toggles.thermal}
-              showOverpressure={toggles.overpressure}
-              showTsunami={toggles.tsunami && neo.ocean_impact}
-            />
-          )}
+         
         </div>
       </div>
 
