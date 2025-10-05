@@ -20,7 +20,7 @@ const Index = () => {
     const deflectedResult = simulateImpact(
       {
         ...neo,
-        impact_angle_deg: neo.impact_angle_deg + deflection.new_impact_angle,
+        impact_angle_deg:  deflection.new_impact_angle,
         density_kg_m3: neo.density_kg_m3 + deflection.delta_density_kg_m3,
         diameter_m: neo.diameter_m + deflection.delta_diameter_m,
         velocity_km_s: neo.velocity_km_s + deflection.delta_velocity_km_s,
