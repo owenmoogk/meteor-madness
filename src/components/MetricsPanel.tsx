@@ -26,6 +26,57 @@ export function MetricsPanel({ pre, title }: MetricsPanelProps) {
         <h3 className="text-lg font-semibold text-primary mb-4">{title}</h3>
       )}
       <div className="flex flex-col gap-4">
+
+      <Card className="p-4 bg-card/80 backdrop-blur-sm border-primary/20">
+        <h4 className="text-sm font-semibold text-primary mb-3">Humanitarian Impact</h4>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="inline-flex items-center gap-1 cursor-help">
+                      <Info className="h-4 w-4" aria-hidden="true" />
+                      <span>Fatalities:</span>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="space-y-1">
+                      <div className="font-mono">Estimated number of deaths caused by the impact.</div>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
+            <span className="font-mono text-destructive">
+              {typeof pre.deaths === "number" ? formatNumber(pre.deaths, 0) : "—"}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="inline-flex items-center gap-1 cursor-help">
+                      <Info className="h-4 w-4" aria-hidden="true" />
+                      <span>Additional Injuries:</span>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="space-y-1">
+                      <div className="font-mono">Estimated number of people injured (non-fatal) by the impact event.</div>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
+            <span className="font-mono text-warning">
+              {typeof pre.injuries === "number" ? formatNumber(pre.injuries, 0) : "—"}
+            </span>
+          </div>
+        </div>
+      </Card>
+
       {/* Energy Metrics */}
       <Card className="p-4 bg-card/80 backdrop-blur-sm border-primary/20">
         <h4 className="text-sm font-semibold text-primary mb-3">Impact Energy</h4>

@@ -3,22 +3,27 @@ import { ImpactMap } from '@/components/ImpactMap';
 import { ControlsPanel } from '@/components/ControlsPanel';
 import { MetricsPanel } from '@/components/MetricsPanel';
 import { useSimStore } from '@/state/useSimStore';
-import { simulateImpact } from '@/lib/physics';
+import { ImpactOutputs, simulateImpact } from '@/lib/physics';
 import { WelcomeDialog } from '@/components/WelcomeDialog';
-
+type SimulateOutput = {
+  pre: ImpactOutputs,
+  post_impact_point?: { lat: number; lon: number }
+}
 const Index = () => {
   const { neo, deflection, toggles } = useSimStore();
-  const [simulation, setSimulation] = useState<ReturnType<typeof simulateImpact>>();
-  const [deflectedSimulation, setDeflectedSimulation] = useState<ReturnType<typeof simulateImpact>>();
+  const [simulation, setSimulation] = useState<SimulateOutput>();
+  const [deflectedSimulation, setDeflectedSimulation] = useState<SimulateOutput>();
   const [syncCenter, setSyncCenter] = useState<[number, number]>([neo.impact_lon, neo.impact_lat]);
   const [syncZoom, setSyncZoom] = useState<number>(8);
   useEffect(() => {
     // Run simulation whenever parameters change
-    const result = simulateImpact(
+     simulateImpact(
       neo,
-    );
-    setSimulation(result);
-    const deflectedResult = simulateImpact(
+    ).then((result) => {
+
+      setSimulation(result);
+    })
+    simulateImpact(
       {
         ...neo,
         impact_angle_deg:  deflection.new_impact_angle+90,
@@ -29,14 +34,16 @@ const Index = () => {
         impact_lon: neo.impact_lon + deflection.delta_location_angle[1],
       }
       
-    );
-    setDeflectedSimulation(deflectedResult);
+    ).then((deflectedResult)  => {
+
+      setDeflectedSimulation(deflectedResult);
+    })
   }, [neo, deflection]);
 
   // Helper to compute delta outputs between two simulations
   const computeDelta = (
-    a?: ReturnType<typeof simulateImpact>,
-    b?: ReturnType<typeof simulateImpact>
+    a?: SimulateOutput,
+    b?: SimulateOutput
   ) => {
     if (!a || !b) return undefined;
     const preA = a.pre;
@@ -60,6 +67,8 @@ const Index = () => {
       },
       seismic_magnitude: preB.seismic_magnitude - preA.seismic_magnitude,
       would_miss_earth: false,
+      deaths: preB.deaths - preA.deaths,
+      injuries: preB.injuries - preA.injuries
     } as const;
   };
 

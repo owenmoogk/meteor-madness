@@ -41,6 +41,8 @@ export interface ImpactOutputs {
   };
   seismic_magnitude: number;
   would_miss_earth: boolean;
+  deaths: number;
+  injuries: number
 }
 
 /**
@@ -230,7 +232,7 @@ const OP10_DTH = 0.6
 const TH_DTH = 0.05
 
 
-async function getCasualties(lat: number, long: number, crater_radius: number, overpres1_radius: number, overpres10_radius: number, thermal_radius: number){
+async function getCasualties(lat: number, long: number, crater_radius: number, overpres1_radius: number, overpres10_radius: number, thermal_radius: number): Promise<{injuries: number, deaths: number}> {
   const [crater_pop, overpres1_pop, overpres10_pop, thermal_pop] = await Promise.all([
     getPopulationInArea(lat, long, crater_radius),
     getPopulationInArea(lat, long, overpres1_radius),
@@ -247,12 +249,12 @@ async function getCasualties(lat: number, long: number, crater_radius: number, o
 /**
  * Main simulation function
  */
-export function simulateImpact(
+export async function simulateImpact(
   neo: NEOParams
-): {
+): Promise<{
   pre: ImpactOutputs;
   post_impact_point?: { lat: number; lon: number };
-} {
+}> {
   // Calculate pre-deflection impact
   const mass = calculateMass(neo.diameter_m, neo.density_kg_m3);
   const energy = calculateEnergy(mass, neo.velocity_km_s);
@@ -283,7 +285,7 @@ export function simulateImpact(
     },
     seismic_magnitude: calculateSeismicMagnitude(energy),
     would_miss_earth: false,
-    ...getCasualties(neo.impact_lat, neo.impact_lon, crater_diam/2, overpressure_1psi, overpressure_10psi, thermal)
+    ... (await getCasualties(neo.impact_lat, neo.impact_lon, crater_diam/2, overpressure_1psi, overpressure_10psi, thermal))
   };
 
   return { pre };
