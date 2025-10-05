@@ -211,6 +211,37 @@ export function calculateNewImpactPoint(
   };
 }
 
+async function getPopulationInArea(lat: number, long: number, radius_km: number): Promise<number> {
+  const api = `https://ringpopulationsapi.azurewebsites.net/api/globalringpopulations?latitude=${lat}&longitude=${long}&distance_km=${radius_km}`
+  const response = await fetch(api)
+  return response[0].people
+}
+
+
+const CR_INJ = 0
+const OP1_INJ = 0
+const OP10_INJ = 0
+const TH_INJ = 0
+const CR_DTH = 0
+const OP1_DTH = 0
+const OP10_DTH = 0
+const TH_DTH = 0
+
+
+async function getCasualties(lat: number, long: number, crater_radius: number, overpres1_radius: number, overpres10_radius: number, thermal_radius: number){
+  const [crater_pop, overpres1_pop, overpres10_pop, thermal_pop] = await Promise.all([
+    getPopulationInArea(lat, long, crater_radius),
+    getPopulationInArea(lat, long, overpres1_radius),
+    getPopulationInArea(lat, long, overpres10_radius),
+    getPopulationInArea(lat, long, thermal_radius)
+  ])
+  const injuries = crater_pop * CR_INJ + overpres1_pop * OP1_INJ + overpres10_pop * OP10_INJ + thermal_radius * TH_INJ
+  const deaths = crater_pop * CR_DTH + overpres1_pop * OP1_DTH + overpres10_pop * OP10_DTH + thermal_radius * TH_DTH
+  return {injuries, deaths}
+}
+
+
+
 /**
  * Main simulation function
  */
@@ -227,6 +258,12 @@ export function simulateImpact(
   const crater_diam = calculateCraterDiameter(energy, neo.impact_angle_deg);
   const crater_depth = calculateCraterDepth(crater_diam);
 
+  const overpressure_1psi = calculateOverpressureRadius(energy_mt, 1)
+  const overpressure_3psi = calculateOverpressureRadius(energy_mt, 3)
+  const overpressure_5psi = calculateOverpressureRadius(energy_mt, 5)
+  const overpressure_10psi = calculateOverpressureRadius(energy_mt, 10)
+  const thermal= calculateThermalRadius(energy_mt)
+
   const pre: ImpactOutputs = {
     mass_kg: mass,
     energy_j: energy,
@@ -235,15 +272,16 @@ export function simulateImpact(
     crater_depth_m: crater_depth,
     rings_km: {
       crater: crater_diam / 2,
-      thermal: calculateThermalRadius(energy_mt),
-      overpressure_1psi: calculateOverpressureRadius(energy_mt, 1),
-      overpressure_3psi: calculateOverpressureRadius(energy_mt, 3),
-      overpressure_5psi: calculateOverpressureRadius(energy_mt, 5),
-      overpressure_10psi: calculateOverpressureRadius(energy_mt, 10),
+      thermal,
+      overpressure_1psi,
+      overpressure_3psi, 
+      overpressure_5psi, 
+      overpressure_10psi,
       tsunami: calculateTsunamiReach(energy, neo.ocean_impact),
     },
     seismic_magnitude: calculateSeismicMagnitude(energy),
     would_miss_earth: false,
+    ...getCasualties(neo.impact_lat, neo.impact_lon, crater_diam/2, overpressure_1psi, overpressure_10psi, thermal)
   };
 
   return { pre };
