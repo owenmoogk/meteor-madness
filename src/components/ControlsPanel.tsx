@@ -6,103 +6,11 @@ import { useSimStore } from '@/state/useSimStore';
 import { Card } from '@/components/ui/card';
 
 export function ControlsPanel() {
-  const { neo, deflection, toggles, setNEO, setDeflection, setToggles, toggleDeflection } = useSimStore();
+  const { neo, deflection, toggles, setNEO, setDeflection, setToggles } = useSimStore();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 bg-card/50 backdrop-blur-sm border-t border-border">
-      {/* Deflection Settings */}
-      <Card className="p-6 bg-secondary/30 border-primary/20">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-primary">Deflection Settings</h3>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label className="text-sm">Change in Diameter (m)</Label>
-                <span className="text-xs text-muted-foreground">{deflection.delta_diameter_m} m</span>
-              </div>
-              <Slider
-                value={[deflection.delta_diameter_m]}
-                min={-neo.diameter_m}
-                max={0}
-                step={10}
-                onValueChange={([value]) => setDeflection({ delta_diameter_m: value })}
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label className="text-sm">Change in Density (kg/m³)</Label>
-                <span className="text-xs text-muted-foreground">{neo.density_kg_m3} kg/m³</span>
-              </div>
-              <Slider
-                value={[deflection.delta_density_kg_m3]}
-                min={-3000}
-                max={3000}
-                step={50}
-                onValueChange={([value]) => setDeflection({ delta_density_kg_m3: value })}
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label className="text-sm">Impact Location (km)</Label>
-                <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]} km, {deflection.delta_location_km[1]} km</span>
-              </div>
-              <Slider
-                value={[deflection.delta_location_km[0]]}
-                min={-30}
-                max={30}
-                step={0.5}
-                onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
-                className="w-full"
-              />
-              <br />
-              <Slider
-                value={[deflection.delta_location_km[1]]}
-                min={-30}
-                max={30}
-                step={0.5}
-                onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label className="text-sm">Change in Velocity (km/s)</Label>
-                <span className="text-xs text-muted-foreground">{deflection.delta_velocity_km_s} km/s</span>
-              </div>
-              <Slider
-                value={[deflection.delta_velocity_km_s]}
-                min={-30}
-                max={30}
-                step={0.5}
-                onValueChange={([value]) => setDeflection({ delta_velocity_km_s: value })}
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label className="text-sm">Change in Impact Angle (°)</Label>
-                <span className="text-xs text-muted-foreground">{deflection.new_impact_angle}°</span>
-              </div>
-              <Slider
-              value={[deflection.new_impact_angle]}
-                min={-90}
-                max={90}
-                step={5}
-                onValueChange={([value]) => setDeflection({ new_impact_angle: value })}
-                className="w-full"
-              />
-            </div>
-
-        </div>
-      </Card>
+      
 
       {/* Visualization Settings */}
       <Card className="p-6 bg-secondary/30 border-primary/20">
@@ -167,6 +75,100 @@ export function ControlsPanel() {
               </div>
             </div>
           </div>
+        </div>
+      </Card>
+
+      {/* Deflection Settings */}
+      <Card className="p-6 bg-secondary/30 border-primary/20">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-primary">Deflection Settings</h3>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between mb-2">
+              <Label className="text-sm">Change in Diameter (m)</Label>
+              <span className="text-xs text-muted-foreground">{deflection.delta_diameter_m} m</span>
+            </div>
+            <Slider
+              value={[deflection.delta_diameter_m]}
+              min={-neo.diameter_m}
+              max={0}
+              step={10}
+              onValueChange={([value]) => setDeflection({ delta_diameter_m: value })}
+              className="w-full"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-2">
+              <Label className="text-sm">Change in Density (kg/m³)</Label>
+              <span className="text-xs text-muted-foreground">{neo.density_kg_m3} kg/m³</span>
+            </div>
+            <Slider
+              value={[deflection.delta_density_kg_m3]}
+              min={-3000}
+              max={3000}
+              step={50}
+              onValueChange={([value]) => setDeflection({ delta_density_kg_m3: value })}
+              className="w-full"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-2">
+              <Label className="text-sm">Impact Location (km)</Label>
+              <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]} km, {deflection.delta_location_km[1]} km</span>
+            </div>
+            <Slider
+              value={[deflection.delta_location_km[0]]}
+              min={-30}
+              max={30}
+              step={0.5}
+              onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
+              className="w-full"
+            />
+            <br />
+            <Slider
+              value={[deflection.delta_location_km[1]]}
+              min={-30}
+              max={30}
+              step={0.5}
+              onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
+              className="w-full"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-2">
+              <Label className="text-sm">Change in Velocity (km/s)</Label>
+              <span className="text-xs text-muted-foreground">{deflection.delta_velocity_km_s} km/s</span>
+            </div>
+            <Slider
+              value={[deflection.delta_velocity_km_s]}
+              min={-30}
+              max={30}
+              step={0.5}
+              onValueChange={([value]) => setDeflection({ delta_velocity_km_s: value })}
+              className="w-full"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-2">
+              <Label className="text-sm">Change in Impact Angle (°)</Label>
+              <span className="text-xs text-muted-foreground">{deflection.new_impact_angle}°</span>
+            </div>
+            <Slider
+              value={[deflection.new_impact_angle]}
+              min={-90}
+              max={90}
+              step={5}
+              onValueChange={([value]) => setDeflection({ new_impact_angle: value })}
+              className="w-full"
+            />
+          </div>
+
         </div>
       </Card>
     </div>
