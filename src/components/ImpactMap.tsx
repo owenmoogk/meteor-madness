@@ -163,13 +163,13 @@ export function ImpactMap({
         {showOverpressure && rings.overpressure_10psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#ffff00" />
-            <Text style={{color: ringConfigs.find(x => x.id == "overpressure-10").color}}>10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
+            <Text style={{color: ringConfigs.find(x => x.id == "overpressure-10").color}}>+10 PSI: {rings.overpressure_10psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showOverpressure && rings.overpressure_1psi && (
           <Flex align="center" gap="xs">
             <Box w={12} h={2} bg="#00d9ff" />
-            <Text style={{ color: ringConfigs.find(x => x.id == "overpressure-1").color}}>1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
+            <Text style={{ color: ringConfigs.find(x => x.id == "overpressure-1").color}}>+1 PSI: {rings.overpressure_1psi.toFixed(1)} km</Text>
           </Flex>
         )}
         {showTsunami && rings.tsunami && (
