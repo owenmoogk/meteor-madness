@@ -61,19 +61,6 @@ export function ControlsPanel() {
                 onCheckedChange={(checked) => setToggles({ tsunami: checked })}
               />
             </div>
-
-            <div className="pt-3 border-t border-border/50">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="ocean-toggle" className="text-sm">
-                  Ocean Impact
-                </Label>
-                <Switch
-                  id="ocean-toggle"
-                  checked={neo.ocean_impact}
-                  onCheckedChange={(checked) => setNEO({ ocean_impact: checked })}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </Card>
