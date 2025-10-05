@@ -122,8 +122,8 @@ export function ControlsPanel() {
             </div>
             <Slider
               value={[deflection.delta_location_km[0]]}
-              min={-30}
-              max={30}
+              min={-60}
+              max={60}
               step={0.5}
               onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
               className="w-full"
@@ -131,8 +131,8 @@ export function ControlsPanel() {
             <br />
             <Slider
               value={[deflection.delta_location_km[1]]}
-              min={-30}
-              max={30}
+              min={-60}
+              max={60}
               step={0.5}
               onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
               className="w-full"
