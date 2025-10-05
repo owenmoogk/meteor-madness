@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ThreeTrajectory } from '@/components/ThreeTrajectory';
 import { ImpactMap } from '@/components/ImpactMap';
 import { ControlsPanel } from '@/components/ControlsPanel';
 import { MetricsPanel } from '@/components/MetricsPanel';
@@ -10,6 +9,8 @@ const Index = () => {
   const { neo, deflection, toggles } = useSimStore();
   const [simulation, setSimulation] = useState<ReturnType<typeof simulateImpact>>();
   const [deflectedSimulation, setDeflectedSimulation] = useState<ReturnType<typeof simulateImpact>>();
+  const [syncCenter, setSyncCenter] = useState<[number, number]>([neo.impact_lon, neo.impact_lat]);
+  const [syncZoom, setSyncZoom] = useState<number>(8);
   useEffect(() => {
     // Run simulation whenever parameters change
     const result = simulateImpact(
@@ -58,6 +59,12 @@ const Index = () => {
           {
             deflectedSimulation && (
               <ImpactMap
+                onMove={(center, zoom) => {
+                  setSyncCenter(center);
+                  setSyncZoom(zoom);
+                }}
+                syncCenter={syncCenter}
+                syncZoom={syncZoom}
                 impactLat={neo.impact_lat + deflection.delta_location_km[0]}
                 impactLon={neo.impact_lon + deflection.delta_location_km[1]}
                 rings={deflectedSimulation.pre.rings_km}
@@ -74,6 +81,12 @@ const Index = () => {
         <div className="h-full bg-muted">
           {simulation && (
             <ImpactMap
+              onMove={(center, zoom) => {
+                setSyncCenter(center);
+                setSyncZoom(zoom);
+              }}
+              syncCenter={syncCenter}
+              syncZoom={syncZoom}
               impactLat={neo.impact_lat}
               impactLon={neo.impact_lon}
               rings={simulation.pre.rings_km}
