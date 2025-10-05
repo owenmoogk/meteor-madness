@@ -2,11 +2,13 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Map, Marker, ZoomControl, Overlay, GeoJsonLoader, GeoJsonFeature, GeoJson } from 'pigeon-maps';
 import { maptiler } from 'pigeon-maps/providers';
 import { Box, Flex, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 
 interface ImpactMapProps {
   impactLat: number;
   impactLon: number;
+  showPopulation;
   rings: {
     crater?: number;
     thermal?: number;
@@ -69,6 +71,7 @@ export function ImpactMap({
   impactLon,
   rings,
   showCrater,
+  showPopulation,
   showThermal,
   showOverpressure,
   showTsunami,
@@ -108,7 +111,7 @@ export function ImpactMap({
     <Box className="relative w-full h-full">
 
       <Map
-        provider={populationProvider}
+        provider={showPopulation ? populationProvider : maptilerProvider}
         height={400}
         limitBounds='edge'
         center={center}
