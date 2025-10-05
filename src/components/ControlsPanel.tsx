@@ -105,23 +105,23 @@ export function ControlsPanel() {
           <div>
             <div className="flex justify-between mb-2">
               <Label className="text-sm">Impact Location (lat/long degrees)</Label>
-              <span className="text-xs text-muted-foreground">{deflection.delta_location_km[0]}°, {deflection.delta_location_km[1]}°</span>
+              <span className="text-xs text-muted-foreground">{deflection.delta_location_angle[0]}°, {deflection.delta_location_angle[1]}°</span>
             </div>
             <Slider
-              value={[deflection.delta_location_km[0]]}
+              value={[deflection.delta_location_angle[0]]}
               min={-60}
               max={60}
               step={0.5}
-              onValueChange={([value]) => setDeflection({ delta_location_km: [value, deflection.delta_location_km[1]] })}
+              onValueChange={([value]) => setDeflection({ delta_location_angle: [value, deflection.delta_location_angle[1]] })}
               className="w-full"
             />
             <br />
             <Slider
-              value={[deflection.delta_location_km[1]]}
+              value={[deflection.delta_location_angle[1]]}
               min={-60}
               max={60}
               step={0.5}
-              onValueChange={([value]) => setDeflection({ delta_location_km: [deflection.delta_location_km[0], value] })}
+              onValueChange={([value]) => setDeflection({ delta_location_angle: [deflection.delta_location_angle[0], value] })}
               className="w-full"
             />
           </div>

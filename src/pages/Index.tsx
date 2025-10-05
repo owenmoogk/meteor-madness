@@ -25,8 +25,8 @@ const Index = () => {
         density_kg_m3: neo.density_kg_m3 + deflection.delta_density_kg_m3,
         diameter_m: neo.diameter_m + deflection.delta_diameter_m,
         velocity_km_s: neo.velocity_km_s + deflection.delta_velocity_km_s,
-        impact_lat: neo.impact_lat + deflection.delta_location_km[0],
-        impact_lon: neo.impact_lon + deflection.delta_location_km[1],
+        impact_lat: neo.impact_lat + deflection.delta_location_angle[0],
+        impact_lon: neo.impact_lon + deflection.delta_location_angle[1],
       }
       
     );
@@ -127,8 +127,8 @@ const Index = () => {
                 }}
                 syncCenter={syncCenter}
                 syncZoom={syncZoom}
-                impactLat={neo.impact_lat + deflection.delta_location_km[0]}
-                impactLon={neo.impact_lon + deflection.delta_location_km[1]}
+                impactLat={neo.impact_lat + deflection.delta_location_angle[0]}
+                impactLon={neo.impact_lon + deflection.delta_location_angle[1]}
                 rings={deflectedSimulation.pre.rings_km}
                 showCrater={toggles.crater}
                 showThermal={toggles.thermal}
