@@ -133,7 +133,14 @@ const Index = () => {
           <div className="flex items-center justify-between px-4 py-2">
               <h1 className="text-lg font-semibold text-primary">Deflected Impact Simulation</h1>
               <span className="text-destructive font-mono text-base">
-                Deaths: {deflectedSimulation?.pre.deaths !== undefined ? Math.round(deflectedSimulation.pre.deaths).toLocaleString() : "—"}
+                Deaths: {deflectedSimulation?.pre.deaths !== undefined ? (
+                  <>
+                    {Math.round(deflectedSimulation.pre.deaths).toLocaleString()}
+                    {simulation?.pre.deaths !== undefined && deflectedSimulation.pre.deaths > simulation.pre.deaths && (
+                      <span className="ml-2 text-warning font-semibold">(Warning: Increased!)</span>
+                    )}
+                  </>
+                ) : "—"}
               </span>
             </div>
           {
