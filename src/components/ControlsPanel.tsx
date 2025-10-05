@@ -9,7 +9,7 @@ export function ControlsPanel() {
   const { neo, deflection, toggles, setNEO, setDeflection, setToggles } = useSimStore();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 bg-card/50 backdrop-blur-sm border-t border-border">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 bg-card/50 backdrop-blur-sm border-border">
       
 
       {/* Visualization Settings */}
